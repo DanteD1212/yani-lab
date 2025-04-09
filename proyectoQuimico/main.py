@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request
-from conversiones import ( ##Importa el archivo conversiones el cual tiene todas las funciones que realizan conversiones
+from .conversiones import ( ##Importa el archivo conversiones el cual tiene todas las funciones que realizan conversiones
     gramos_a_kilogramos, kilogramos_a_gramos,
     celsius_a_fahrenheit, fahrenheit_a_celsius,
     litros_a_mililitros, mililitros_a_litros
 )
-from neubauer import Neubauer
+from .neubauer import Neubauer
 
 app = Flask(__name__)
 
