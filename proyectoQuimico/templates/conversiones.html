@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Unidades Químicas</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styleconversiones.css') }}">
+</head>
+<body>
+    <h1>Convertidor de Unidades Químicas Básico</h1>
+
+    <form method="POST">
+        <label for="tipo_unidad">Tipo de Unidad:</label>
+        <select name="tipo_unidad" id="tipo_unidad">
+            <option value="">Seleccionar tipo</option>
+            <option value="masa">Masa</option>
+            <option value="temperatura">Temperatura</option>
+            <option value="volumen">Volumen</option>
+        </select><br><br>
+
+        <label for="unidad_origen">Unidad de Origen:</label>
+        <select name="unidad_origen" id="unidad_origen" disabled>
+            <option value="">Seleccionar unidad</option>
+        </select><br><br>
+
+        <label for="unidad_destino">Unidad de Destino:</label>
+        <select name="unidad_destino" id="unidad_destino" disabled>
+            <option value="">Seleccionar unidad</option>
+        </select><br><br>
+
+        <label for="valor">Valor:</label>
+        <input type="number" step="any" name="valor" required><br><br>
+
+        <input type="submit" value="Convertir">
+    </form>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ url_for('index') }}" class="boton-regresar">Volver al Inicio</a>
+    </div>
+
+    {% if resultado is not none %}
+        <h2>Resultado: {{ valor }} {{ unidad_origen }} es igual a {{ resultado }} {{ unidad_destino }}</h2>
+    {% endif %}
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <script>
+        const tipoUnidadSelect = document.getElementById('tipo_unidad');
+        const unidadOrigenSelect = document.getElementById('unidad_origen');
+        const unidadDestinoSelect = document.getElementById('unidad_destino');
+
+        const unidadesPorTipo = {
+            masa: ['gramos', 'kilogramos'],
+            temperatura: ['celsius', 'fahrenheit'],
+            volumen: ['litros', 'mililitros']
+        };
+
+        tipoUnidadSelect.addEventListener('change', function() {
+            const tipoSeleccionado = this.value;
+
+            // Limpiar y habilitar los selectores de unidad
+            unidadOrigenSelect.innerHTML = '<option value="">Seleccionar unidad</option>';
+            unidadDestinoSelect.innerHTML = '<option value="">Seleccionar unidad</option>';
+            unidadOrigenSelect.disabled = false;
+            unidadDestinoSelect.disabled = false;
+
+            if (tipoSeleccionado) {
+                const unidades = unidadesPorTipo[tipoSeleccionado];
+                unidades.forEach(unidad => {
+                    const optionOrigen = document.createElement('option');
+                    optionOrigen.value = unidad;
+                    optionOrigen.textContent = unidad.charAt(0).toUpperCase() + unidad.slice(1); // Capitalizar la primera letra
+                    unidadOrigenSelect.appendChild(optionOrigen);
+
+                    const optionDestino = document.createElement('option');
+                    optionDestino.value = unidad;
+                    optionDestino.textContent = unidad.charAt(0).toUpperCase() + unidad.slice(1); // Capitalizar la primera letra
+                    unidadDestinoSelect.appendChild(optionDestino);
+                });
+            } else {
+                unidadOrigenSelect.disabled = true;
+                unidadDestinoSelect.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>

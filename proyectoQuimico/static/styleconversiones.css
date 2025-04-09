@@ -1,0 +1,89 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 40px;
+    background-color: #f0f8ff; /* Alice Blue */
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    color: #1e90ff; /* Dodger Blue */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+select,
+input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+select option {
+    padding: 8px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+h2 {
+    color: #2e8b57; /* Sea Green */
+    margin-top: 30px;
+    text-align: center;
+}
+
+p[style="color: red;"] {
+    color: #ff4d4d; /* Red */
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.boton-regresar {
+    display: inline-block;
+    background-color: #f44336; /* Un color rojo */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.boton-regresar:hover {
+    background-color: #d32f2f; /* Un tono más oscuro al pasar el ratón */
+}
