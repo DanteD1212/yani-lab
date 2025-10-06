@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Cálculo de Neubauer{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/neubauer.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Cálculo de Concentración - Cámara de Neubauer</h1>
+    <p>Calcula la concentración celular de manera precisa y confiable</p>
+</div>
+
+<div class="neubauer-container">
+    <form method="POST" class="neubauer-form" id="neubauerForm">
+        <div class="form-section">
+            <h3>Parámetros del Experimento</h3>
+            
+            <div class="form-group">
+                <label for="numCuadrantes" class="form-label">Número de cuadrantes contados:</label>
+                <select id="numCuadrantes" name="numCuadrantes" class="form-select" onchange="actualizarCamposCuadrantes()" required>
+                    <option value="1">1 cuadrante</option>
+                    <option value="2">2 cuadrantes</option>
+                    <option value="3">3 cuadrantes</option>
+                    <option value="4" selected>4 cuadrantes (esquinas)</option>
+                    <option value="5">5 cuadrantes (4 esquinas + central)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="volumenCuadrante" class="form-label">Volumen de cada cuadrante contado (mm³):</label>
+                <input type="number" id="volumenCuadrante" name="volumenCuadrante" 
+                       class="form-input" value="0.1" step="0.01" required>
+                <small class="form-help">Valor típico: 0.1 mm³ para cuadrantes grandes</small>
+            </div>
+
+            <div class="form-group">
+                <label for="factorDilucion" class="form-label">Factor de Dilución:</label>
+                <input type="number" id="factorDilucion" name="factorDilucion" 
+                       class="form-input" value="1" min="1" required>
+                <small class="form-help">Si no hay dilución, usar 1</small>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>Conteo de Células por Cuadrante</h3>
+            <div id="camposCuadrantes" class="quadrants-grid">
+                <!-- Los campos se generan dinámicamente con JavaScript -->
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular Concentración</button>
+    </form>
+
+    {% if resultado %}
+    <div class="result-section success">
+        <h2>Resultados del Cálculo</h2>
+        <div class="result-grid">
+            <div class="result-card main-result">
+                <h3>Concentración Final</h3>
+                <p class="concentration-value">{{ "%.2e" | format(resultado.concentration) }} células/mL</p>
+            </div>
+            
+            <div class="result-card">
+                <h4>Células Totales</h4>
+                <p>{{ resultado.total_cells }} células</p>
+            </div>
+            
+            <div class="result-card">
+                <h4>Promedio por Cuadrante</h4>
+                <p>{{ "%.2f" | format(resultado.average_cells) }} células</p>
+            </div>
+            
+            <div class="result-card">
+                <h4>Cuadrantes Contados</h4>
+                <p>{{ resultado.num_quadrants }} cuadrantes</p>
+            </div>
+        </div>
+        
+        <div class="calculation-details">
+            <h4>Detalles del Cálculo</h4>
+            <ul>
+                <li>Volumen por cuadrante: {{ resultado.volume_per_quadrant }} mm³</li>
+                <li>Factor de dilución: {{ resultado.dilution_factor }}</li>
+                <li>Total de células contadas: {{ resultado.total_cells }}</li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="result-section error">
+        <h2>Error en el Cálculo</h2>
+        <p class="error-text">{{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="info-panel">
+    <h3>Información sobre la Cámara de Neubauer</h3>
+    <div class="info-content">
+        <p>La cámara de Neubauer es un instrumento utilizado para contar células en suspensión. 
+           Los cuadrantes más comunes tienen un volumen de 0.1 mm³.</p>
+        
+        <h4>Consejos para un buen conteo:</h4>
+        <ul>
+            <li>Cuenta al menos 100 células para mayor precisión</li>
+            <li>Utiliza diluciones apropiadas si la concentración es muy alta</li>
+            <li>Evita contar células en los bordes dos veces</li>
+            <li>Realiza conteos por triplicado para verificar resultados</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/neubauer.js') }}"></script>
+{% endblock %}

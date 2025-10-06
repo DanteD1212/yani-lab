@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Química Interactiva{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <a href="{{ url_for('main.index') }}">Química Interactiva</a>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('main.index') }}" class="nav-link">Inicio</a>
+                <a href="{{ url_for('conversions.conversions') }}" class="nav-link">Conversiones</a>
+                <a href="{{ url_for('neubauer.neubauer') }}" class="nav-link">Neubauer</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Química Interactiva - Herramientas para químicos</p>
+            <p>Desarrollado por Dante Daniel</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

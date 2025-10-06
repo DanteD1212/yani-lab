@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Convertidor de Unidades Químicas{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/conversions.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Convertidor de Unidades Químicas</h1>
+    <p>Realiza conversiones precisas entre diferentes unidades de medida</p>
+</div>
+
+<div class="conversion-container">
+    <form method="POST" class="conversion-form">
+        <div class="form-group">
+            <label for="tipo_unidad" class="form-label">Tipo de Unidad:</label>
+            <select name="tipo_unidad" id="tipo_unidad" class="form-select" required>
+                <option value="">Seleccionar tipo</option>
+                <option value="masa" {% if tipo_unidad == 'masa' %}selected{% endif %}>Masa</option>
+                <option value="temperatura" {% if tipo_unidad == 'temperatura' %}selected{% endif %}>Temperatura</option>
+                <option value="volumen" {% if tipo_unidad == 'volumen' %}selected{% endif %}>Volumen</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="unidad_origen" class="form-label">Unidad de Origen:</label>
+                <select name="unidad_origen" id="unidad_origen" class="form-select" disabled required>
+                    <option value="">Seleccionar unidad</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="unidad_destino" class="form-label">Unidad de Destino:</label>
+                <select name="unidad_destino" id="unidad_destino" class="form-select" disabled required>
+                    <option value="">Seleccionar unidad</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="valor" class="form-label">Valor a convertir:</label>
+            <input type="number" step="any" name="valor" id="valor" class="form-input" 
+                   placeholder="Ingrese el valor numérico" value="{{ valor }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Convertir</button>
+    </form>
+
+    {% if resultado is not none %}
+    <div class="result-section success">
+        <h2>Resultado</h2>
+        <p class="result-text">
+            <span class="original-value">{{ valor }} {{ unidad_origen }}</span>
+            <span class="conversion-arrow">→</span>
+            <span class="converted-value">{{ "%.4f" | format(resultado) }} {{ unidad_destino }}</span>
+        </p>
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="result-section error">
+        <h2>Error</h2>
+        <p class="error-text">{{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<div class="info-panel">
+    <h3>Conversiones Disponibles</h3>
+    <div class="conversion-info">
+        <div class="info-card">
+            <h4>Masa</h4>
+            <ul>
+                <li>Gramos ↔ Kilogramos</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h4>Temperatura</h4>
+            <ul>
+                <li>Celsius ↔ Fahrenheit</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h4>Volumen</h4>
+            <ul>
+                <li>Litros ↔ Mililitros</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/conversions.js') }}"></script>
+{% endblock %}

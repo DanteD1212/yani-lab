@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Química Interactiva - Inicio{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Bienvenido a Química Interactiva</h1>
+    <p class="hero-subtitle">Explora nuestras herramientas y recursos para el mundo de la química.</p>
+</div>
+
+<section class="features-section">
+    <h2>Explora nuestras herramientas:</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3>Conversiones de Unidades</h3>
+            <p>Realiza conversiones rápidas entre diferentes unidades de masa, temperatura y volumen.</p>
+            <a href="{{ url_for('conversions.conversions') }}" class="btn btn-primary">Ir a Conversiones</a>
+        </div>
+        
+        <div class="feature-card">
+            <h3>Cálculo de Neubauer</h3>
+            <p>Calcula la concentración celular utilizando la cámara de Neubauer de forma precisa.</p>
+            <a href="{{ url_for('neubauer.neubauer') }}" class="btn btn-primary">Ir a Neubauer</a>
+        </div>
+    </div>
+</section>
+
+<section class="info-section">
+    <h2>¿Para qué sirve esta aplicación?</h2>
+    <p>Esta aplicación está diseñada específicamente para químicos, biólogos y estudiantes que necesitan 
+       realizar cálculos rápidos y precisos en sus experimentos y análisis de laboratorio.</p>
+    
+    <div class="benefits-list">
+        <ul>
+            <li> Conversiones de unidades instantáneas</li>
+            <li> Cálculos de concentración celular precisos</li>
+            <li> Interfaz intuitiva y fácil de usar</li>
+            <li> Validación de datos para evitar errores</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}
