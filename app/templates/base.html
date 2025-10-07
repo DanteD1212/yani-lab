@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2c3e50">
     <title>{% block title %}Química Interactiva{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dark-mode.css') }}">
     {% block styles %}{% endblock %}
+    <!-- Script de modo oscuro antes de renderizar -->
+    <script>
+        (function() {
+            const savedMode = localStorage.getItem('darkMode');
+            if (savedMode === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
 </head>
 <body>
     <header>
@@ -17,7 +28,16 @@
                 <a href="{{ url_for('main.index') }}" class="nav-link">Inicio</a>
                 <a href="{{ url_for('conversions.conversions') }}" class="nav-link">Conversiones</a>
                 <a href="{{ url_for('neubauer.neubauer') }}" class="nav-link">Neubauer</a>
+                <a href="{{ url_for('concentrations.concentrations') }}" class="nav-link">Concentraciones</a>
             </div>
+            <button id="darkModeToggle" class="dark-mode-toggle" 
+                    aria-label="Cambiar modo de color" 
+                    aria-pressed="false"
+                    title="Alternar entre modo claro y oscuro (Ctrl+Shift+D)">
+                <span class="icon sun-icon">☀️</span>
+                <span class="icon moon-icon">🌙</span>
+                <span class="toggle-text">Modo Oscuro</span>
+            </button>
         </nav>
     </header>
 
@@ -32,6 +52,8 @@
         </div>
     </footer>
 
+    <!-- Script de modo oscuro -->
+    <script src="{{ url_for('static', filename='js/dark-mode.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

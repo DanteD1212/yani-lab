@@ -42,17 +42,17 @@
 }
 
 .feature-card {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 .feature-card h3 {
@@ -68,10 +68,10 @@
 }
 
 .info-section {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
 }
 
 .info-section h2 {

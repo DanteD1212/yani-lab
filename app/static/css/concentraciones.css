@@ -1,0 +1,382 @@
+/* Estilos para la calculadora de concentraciones */
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.description {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.concentration-form {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.calculation-fields {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+}
+
+.calculation-fields h3 {
+    color: var(--btn-primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.help-text {
+    background-color: var(--bg-secondary);
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #2196f3;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.result-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.result-section h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.formula-used {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.result-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-label {
+    font-weight: bold;
+}
+
+.result-value {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffeb3b;
+}
+
+.result-notes {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fields-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .concentration-form {
+        padding: 20px;
+    }
+    
+    .result-section {
+        padding: 20px;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calculation-fields {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.result-section {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Mejoras visuales */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.form-group input::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+/* Estilos adicionales para funcionalidades JS */
+.btn-clear-fields {
+    background-color: #dc3545;
+    color: white;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.btn-clear-fields:hover {
+    background-color: #c82333;
+}
+
+.validation-tooltip {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    z-index: 1000;
+    max-width: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.validation-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 10px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #dc3545;
+}
+
+input.invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.3) !important;
+}
+
+input.valid {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.3) !important;
+}
+
+.result-value {
+    transition: color 0.2s ease;
+}
+
+.result-value:hover {
+    color: #ffc107 !important;
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.5);
+}
+
+/* Estilos para tooltips informativos */
+.tooltip-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    cursor: help;
+    font-size: 12px;
+    color: #007bff;
+    border-radius: 50%;
+    background-color: rgba(0, 123, 255, 0.1);
+    text-align: center;
+    line-height: 16px;
+    transition: all 0.2s ease;
+}
+
+.tooltip-icon:hover {
+    background-color: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Tooltip container */
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 280px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 8px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -140px;
+    font-size: 13px;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.tooltip-container:hover .tooltip-text,
+.tooltip-icon:hover + .tooltip-text,
+input:focus + .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Estilos para tooltips en inputs */
+input[data-tooltip] {
+    position: relative;
+}
+
+/* Responsive tooltips */
+@media (max-width: 768px) {
+    .tooltip-text {
+        width: 250px;
+        margin-left: -125px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .tooltip-text {
+        width: 200px;
+        margin-left: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

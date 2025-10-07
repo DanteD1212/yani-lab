@@ -10,9 +10,11 @@ def create_app(config_name='default'):
     from .routes.main import bp as main_bp
     from .routes.conversions import bp as conversions_bp
     from .routes.neubauer import bp as neubauer_bp
+    from .routes.concentrations import bp as concentrations_bp
     
     app.register_blueprint(main_bp)
     app.register_blueprint(conversions_bp)
     app.register_blueprint(neubauer_bp)
+    app.register_blueprint(concentrations_bp)
     
     return app

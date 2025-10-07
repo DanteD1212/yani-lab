@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, Callable
 
 class UnitType(Enum):
     """Tipos de unidades soportadas por el sistema."""

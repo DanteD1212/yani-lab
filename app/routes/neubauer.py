@@ -63,9 +63,9 @@ def neubauer():
         error = str(e)
     except NeubauerError as e:
         error = str(e)
-    except KeyError as e:
+    except KeyError:
         error = "Faltan datos en el formulario. Por favor, completa todos los campos."
-    except Exception as e:
+    except Exception:
         error = "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo."
     
     return render_template('neubauer.html', resultado=resultado, error=error)

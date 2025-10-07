@@ -22,10 +22,10 @@
 }
 
 .conversion-form {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     margin-bottom: 2rem;
 }
 
@@ -36,8 +36,8 @@
 }
 
 .form-select:disabled {
-    background-color: #f8f9fa;
-    color: #6c757d;
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
     cursor: not-allowed;
 }
 
@@ -64,10 +64,10 @@
 }
 
 .info-panel {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     margin-top: 2rem;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .info-card {
-    background: #f8f9fa;
+    background-color: var(--bg-secondary);
     padding: 1rem;
     border-radius: 8px;
     border-left: 4px solid #3498db;

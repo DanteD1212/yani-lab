@@ -1,0 +1,566 @@
+/* Variables para modo oscuro */
+:root {
+    /* Colores modo claro (por defecto) */
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-navbar: #2c3e50;
+    --bg-footer: #2c3e50;
+    --bg-input: #ffffff;
+    --bg-gradient-start: #667eea;
+    --bg-gradient-end: #764ba2;
+    --bg-result: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* Textos */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-navbar: #ffffff;
+    --text-light: #555555;
+    --text-muted: #666666;
+    --text-link: #3498db;
+    
+    /* Bordes y sombras */
+    --border-color: #dddddd;
+    --border-light: #e9ecef;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+    
+    /* Botones */
+    --btn-primary: #3498db;
+    --btn-primary-hover: #2980b9;
+    --btn-secondary: #6c757d;
+    --btn-secondary-hover: #545b62;
+    
+    /* Estados */
+    --success-bg: #d4edda;
+    --success-border: #28a745;
+    --success-text: #155724;
+    --error-bg: #f8d7da;
+    --error-border: #dc3545;
+    --error-text: #721c24;
+    --info-bg: #e3f2fd;
+    --info-border: #2196f3;
+    --info-text: #1565c0;
+}
+
+/* Modo oscuro activado */
+body.dark-mode {
+    /* Fondos */
+    --bg-primary: #0f1419;
+    --bg-secondary: #1a1f2e;
+    --bg-card: #1e2530;
+    --bg-navbar: #0d1117;
+    --bg-footer: #0d1117;
+    --bg-input: #252d3a;
+    --bg-gradient-start: #4a5568;
+    --bg-gradient-end: #2d3748;
+    --bg-result: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    
+    /* Textos */
+    --text-primary: #e4e7eb;
+    --text-secondary: #a0aec0;
+    --text-navbar: #e4e7eb;
+    --text-light: #cbd5e0;
+    --text-muted: #a0aec0;
+    --text-link: #63b3ed;
+    
+    /* Bordes y sombras */
+    --border-color: #374151;
+    --border-light: #374151;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+    
+    /* Botones */
+    --btn-primary: #4299e1;
+    --btn-primary-hover: #3182ce;
+    --btn-secondary: #4a5568;
+    --btn-secondary-hover: #2d3748;
+    
+    /* Estados */
+    --success-bg: #1e3a2e;
+    --success-border: #38a169;
+    --success-text: #9ae6b4;
+    --error-bg: #3a1e1e;
+    --error-border: #e53e3e;
+    --error-text: #fc8181;
+    --info-bg: #1e2a3a;
+    --info-border: #4299e1;
+    --info-text: #90cdf4;
+}
+
+/* Aplicar variables CSS a elementos existentes */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--bg-navbar);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-brand a,
+.nav-link {
+    color: var(--text-navbar);
+}
+
+/* Botón de modo oscuro */
+.dark-mode-toggle {
+    background: none;
+    border: 2px solid var(--text-navbar);
+    color: var(--text-navbar);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.dark-mode-toggle .icon {
+    font-size: 1.2rem;
+}
+
+/* Tarjetas y contenedores */
+.feature-card,
+.info-section,
+.conversion-form,
+.concentration-form,
+.neubauer-form,
+.info-panel,
+.result-card {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover mejorado para tarjetas en modo oscuro */
+body.dark-mode .feature-card:hover {
+    background-color: #252d3d;
+    box-shadow: var(--shadow-lg);
+}
+
+body.dark-mode .info-card:hover {
+    background-color: #2a3340;
+}
+
+/* Hero section con gradiente adaptable */
+.hero-section {
+    background: var(--bg-result);
+    color: var(--text-navbar);
+}
+
+/* Inputs y selects */
+.form-input,
+.form-select {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--btn-primary);
+    background-color: var(--bg-input);
+}
+
+body.dark-mode .form-input:focus,
+body.dark-mode .form-select:focus {
+    background-color: #2a3340;
+    border-color: var(--btn-primary);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.form-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Etiquetas */
+.form-label {
+    color: var(--text-light);
+}
+
+/* Texto de ayuda */
+.form-help,
+.help-text {
+    color: var(--text-muted);
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--btn-primary);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--btn-primary-hover);
+}
+
+.btn-secondary {
+    background-color: var(--btn-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-secondary-hover);
+}
+
+/* Secciones de resultados */
+.result-section {
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.3s ease;
+}
+
+.result-section.success {
+    background-color: var(--success-bg);
+    border-left-color: var(--success-border);
+}
+
+.result-section.error {
+    background-color: var(--error-bg);
+    border-left-color: var(--error-border);
+}
+
+.error-text {
+    color: var(--error-text);
+}
+
+.error-message {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border-color: var(--error-border);
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+}
+
+.page-header h1,
+.features-section h2,
+.info-section h2,
+.feature-card h3,
+.calculation-fields h3 {
+    color: var(--text-primary);
+}
+
+/* Párrafos y textos */
+p {
+    color: var(--text-secondary);
+}
+
+.hero-subtitle,
+.page-header p,
+.feature-card p,
+.info-section p,
+.description {
+    color: var(--text-secondary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-footer);
+    color: var(--text-navbar);
+}
+
+/* Tarjetas de información */
+.info-card {
+    background-color: var(--bg-input);
+    border-left-color: var(--btn-primary);
+}
+
+.info-card h4 {
+    color: var(--text-primary);
+}
+
+.info-card li {
+    color: var(--text-secondary);
+}
+
+/* Cuadrantes de Neubauer */
+.quadrant-input {
+    background-color: var(--bg-input);
+    border-color: var(--border-light);
+}
+
+.quadrant-input label {
+    color: var(--text-light);
+}
+
+/* Detalles de cálculo */
+.calculation-details {
+    background-color: var(--bg-input);
+}
+
+.calculation-details h4 {
+    color: var(--text-primary);
+}
+
+.calculation-details li {
+    color: var(--text-secondary);
+    border-bottom-color: var(--border-light);
+}
+
+/* Lista de beneficios */
+.benefits-list li {
+    color: var(--text-light);
+}
+
+/* Campos de cálculo */
+.calculation-fields {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-light);
+}
+
+/* Sección de ayuda */
+.help-text {
+    background-color: var(--info-bg);
+    border-left-color: var(--info-border);
+    color: var(--info-text);
+}
+
+/* Tooltips */
+.tooltip-icon {
+    color: var(--btn-primary);
+    background-color: rgba(66, 153, 225, 0.1);
+}
+
+body.dark-mode .tooltip-icon {
+    background-color: rgba(66, 153, 225, 0.25);
+}
+
+.tooltip-icon:hover {
+    background-color: var(--btn-primary);
+    color: white;
+}
+
+.tooltip-text {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+body.dark-mode .tooltip-text {
+    background-color: #2a3340;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.tooltip-text::after {
+    border-color: var(--bg-card) transparent transparent transparent;
+}
+
+body.dark-mode .tooltip-text::after {
+    border-color: #2a3340 transparent transparent transparent;
+}
+
+/* Fórmula utilizada */
+.formula-used {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .formula-used {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+/* Resultado item */
+.result-item {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .result-item {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+/* Notas de resultado */
+.result-notes {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .result-notes {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+}
+
+/* Valor convertido */
+.converted-value {
+    color: var(--success-border);
+}
+
+.original-value {
+    color: var(--text-secondary);
+}
+
+/* Selects deshabilitados */
+.form-select:disabled {
+    background-color: var(--bg-input);
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* Validación de inputs */
+input.invalid {
+    border-color: var(--error-border) !important;
+}
+
+input.valid {
+    border-color: var(--success-border) !important;
+}
+
+/* Valor de concentración principal */
+.concentration-value {
+    color: #ffeb3b;
+}
+
+body.dark-mode .concentration-value {
+    color: #ffd93d;
+}
+
+/* Tarjeta de resultado principal */
+.result-card.main-result {
+    background: var(--bg-result);
+}
+
+body.dark-mode .result-card.main-result {
+    background: linear-gradient(135deg, #3d5a80 0%, #2d4a6a 100%);
+    border: 1px solid rgba(66, 153, 225, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Grid de conversiones */
+.fields-grid,
+.results-grid,
+.result-grid {
+    gap: 1rem;
+}
+
+/* Transiciones suaves para todos los elementos */
+* {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Evitar transición en hover de botones */
+.btn, .nav-link, .feature-card {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+/* Responsive para el botón de modo oscuro */
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Mejoras de accesibilidad */
+body.dark-mode a {
+    color: var(--text-link);
+}
+
+body.dark-mode a:hover {
+    color: var(--btn-primary);
+}
+
+/* Asegurar contraste en modo oscuro */
+body.dark-mode .result-section.success {
+    color: var(--success-text);
+}
+
+body.dark-mode .result-section.error {
+    color: var(--error-text);
+}
+
+/* Iconos del botón */
+.sun-icon, .moon-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+body.dark-mode .sun-icon {
+    display: none;
+}
+
+body:not(.dark-mode) .moon-icon {
+    display: none;
+}
+
+/* Animación al cambiar de modo */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body.dark-mode-transition,
+body.dark-mode-transition * {
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Mejoras adicionales para modo oscuro */
+body.dark-mode .form-section {
+    border-bottom-color: var(--border-color);
+}
+
+body.dark-mode .quadrant-input {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .calculation-details {
+    background-color: var(--bg-input);
+}
+
+body.dark-mode .info-card {
+    background-color: var(--bg-input);
+    border-left-color: var(--btn-primary);
+}
+
+body.dark-mode .concentration-form {
+    background-color: var(--bg-secondary);
+}
+
+/* Mejorar contraste de separadores */
+body.dark-mode .calculation-fields h3 {
+    border-bottom-color: var(--border-color);
+}
+
+/* Asegurar que los campos deshabilitados se vean bien */
+body.dark-mode .form-select:disabled {
+    background-color: #1a1f2e;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* Mejorar fondo del hero section en modo oscuro */
+body.dark-mode .hero-section {
+    background: linear-gradient(135deg, #3d5a80 0%, #2d4a6a 100%);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}

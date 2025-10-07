@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+
+{% block title %}Calculadora de Concentraciones - Química Interactiva{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/concentraciones.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/concentraciones.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Calculadora de Concentraciones</h1>
+    <p class="description">
+        Realiza cálculos de concentraciones, molaridad, molalidad, diluciones y conversiones entre diferentes unidades.
+    </p>
+
+    <form method="POST" class="concentration-form">
+        <div class="form-group">
+            <label for="calculation_type">Tipo de Cálculo:</label>
+            <select id="calculation_type" name="calculation_type" required onchange="showCalculationFields()">
+                <option value="">Selecciona un tipo de cálculo</option>
+                {% for calc_type in calculation_types %}
+                <option value="{{ calc_type.value }}" 
+                        {% if form_data and form_data.get('calculation_type') == calc_type.value %}selected{% endif %}>
+                    {{ calc_type.label }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Campos para Molaridad -->
+        <div id="molarity-fields" class="calculation-fields" style="display: none;">
+            <h3>Cálculo de Molaridad (M = moles / L)</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="moles">Moles: <span class="tooltip-icon" data-tooltip="Cantidad de sustancia en moles (mol). Ejemplo: 0.5 mol">ℹ️</span></label>
+                    <input type="number" id="moles" name="moles" step="any" placeholder="Ej: 0.5 mol"
+                           value="{{ form_data.get('moles', '') if form_data else '' }}"
+                           data-tooltip="Ingresa la cantidad de sustancia en moles. Rango típico: 0.001 - 100 mol">
+                </div>
+                <div class="form-group">
+                    <label for="volume_l">Volumen: <span class="tooltip-icon" data-tooltip="Volumen de la solución en litros. Ejemplo: 1.0 L = 1000 mL">ℹ️</span></label>
+                    <input type="number" id="volume_l" name="volume_l" step="any" placeholder="Ej: 1.0 L"
+                           value="{{ form_data.get('volume_l', '') if form_data else '' }}"
+                           data-tooltip="Volumen total de la solución en litros. Recuerda: 1 L = 1000 mL">
+                </div>
+                <div class="form-group">
+                    <label for="molarity">Molaridad: <span class="tooltip-icon" data-tooltip="Concentración molar (M). Ejemplo: 0.1 M significa 0.1 moles por litro">ℹ️</span></label>
+                    <input type="number" id="molarity" name="molarity" step="any" placeholder="Ej: 0.1 M"
+                           value="{{ form_data.get('molarity', '') if form_data else '' }}"
+                           data-tooltip="Concentración en molaridad (M). Rango común: 0.001 - 10 M">
+                </div>
+                <div class="form-group">
+                    <label for="mass_g">Masa: <span class="tooltip-icon" data-tooltip="Masa del soluto en gramos. Ejemplo: 58.5 g de NaCl">ℹ️</span></label>
+                    <input type="number" id="mass_g" name="mass_g" step="any" placeholder="Ej: 58.5 g"
+                           value="{{ form_data.get('mass_g', '') if form_data else '' }}"
+                           data-tooltip="Masa del soluto (sustancia a disolver) en gramos">
+                </div>
+                <div class="form-group">
+                    <label for="molecular_weight">Peso Molecular: <span class="tooltip-icon" data-tooltip="Masa molar en g/mol. Ejemplo: NaCl = 58.5 g/mol">ℹ️</span></label>
+                    <input type="number" id="molecular_weight" name="molecular_weight" step="any" placeholder="Ej: 58.5 g/mol"
+                           value="{{ form_data.get('molecular_weight', '') if form_data else '' }}"
+                           data-tooltip="Peso molecular o masa molar de la sustancia en g/mol. Consulta tabla periódica">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa cualquiera de estas combinaciones:<br>
+                • Moles + Volumen (para calcular Molaridad)<br>
+                • Molaridad + Volumen (para calcular Moles)<br>
+                • Molaridad + Moles (para calcular Volumen)<br>
+                • Masa + Peso Molecular + Volumen (para calcular Molaridad)
+            </p>
+        </div>
+
+        <!-- Campos para Molalidad -->
+        <div id="molality-fields" class="calculation-fields" style="display: none;">
+            <h3>Cálculo de Molalidad (m = moles / kg disolvente)</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="moles_molality">Moles: <span class="tooltip-icon" data-tooltip="Cantidad de soluto en moles">ℹ️</span></label>
+                    <input type="number" id="moles_molality" name="moles" step="any" placeholder="Ej: 2.0 mol"
+                           value="{{ form_data.get('moles', '') if form_data else '' }}"
+                           data-tooltip="Moles del soluto (sustancia disuelta)">
+                </div>
+                <div class="form-group">
+                    <label for="kg_solvent">Kg de Disolvente: <span class="tooltip-icon" data-tooltip="Masa del disolvente (NO de la solución total)">ℹ️</span></label>
+                    <input type="number" id="kg_solvent" name="kg_solvent" step="any" placeholder="Ej: 1.0 kg"
+                           value="{{ form_data.get('kg_solvent', '') if form_data else '' }}"
+                           data-tooltip="Masa del disolvente puro en kg (agua, alcohol, etc.). NO incluye el soluto">
+                </div>
+                <div class="form-group">
+                    <label for="molality_value">Molalidad: <span class="tooltip-icon" data-tooltip="Concentración molal (m). Independiente de la temperatura">ℹ️</span></label>
+                    <input type="number" id="molality_value" name="molality" step="any" placeholder="Ej: 2.0 m"
+                           value="{{ form_data.get('molality', '') if form_data else '' }}"
+                           data-tooltip="Concentración molal en mol/kg. Útil para cálculos de propiedades coligativas">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa dos de los tres campos para calcular el tercero.
+            </p>
+        </div>
+
+        <!-- Campos para Diluciones -->
+        <div id="dilution-fields" class="calculation-fields" style="display: none;">
+            <h3>Cálculo de Diluciones (C₁ × V₁ = C₂ × V₂)</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="c1">Concentración Inicial (C₁): <span class="tooltip-icon" data-tooltip="Concentración de la solución madre/stock">ℹ️</span></label>
+                    <input type="number" id="c1" name="c1" step="any" placeholder="Ej: 2.0 M"
+                           value="{{ form_data.get('c1', '') if form_data else '' }}"
+                           data-tooltip="Concentración de la solución original (más concentrada). Usar mismas unidades que C₂">
+                </div>
+                <div class="form-group">
+                    <label for="v1">Volumen Inicial (V₁): <span class="tooltip-icon" data-tooltip="Volumen que tomas de la solución madre">ℹ️</span></label>
+                    <input type="number" id="v1" name="v1" step="any" placeholder="Ej: 10 mL"
+                           value="{{ form_data.get('v1', '') if form_data else '' }}"
+                           data-tooltip="Volumen de solución concentrada que necesitas pipetear. Usar mismas unidades que V₂">
+                </div>
+                <div class="form-group">
+                    <label for="c2">Concentración Final (C₂): <span class="tooltip-icon" data-tooltip="Concentración que deseas obtener">ℹ️</span></label>
+                    <input type="number" id="c2" name="c2" step="any" placeholder="Ej: 0.1 M"
+                           value="{{ form_data.get('c2', '') if form_data else '' }}"
+                           data-tooltip="Concentración deseada de la solución diluida (menos concentrada)">
+                </div>
+                <div class="form-group">
+                    <label for="v2">Volumen Final (V₂): <span class="tooltip-icon" data-tooltip="Volumen total de la solución final">ℹ️</span></label>
+                    <input type="number" id="v2" name="v2" step="any" placeholder="Ej: 200 mL"
+                           value="{{ form_data.get('v2', '') if form_data else '' }}"
+                           data-tooltip="Volumen total que quieres preparar de la solución diluida">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa exactamente 3 de los 4 campos para calcular el cuarto.
+            </p>
+        </div>
+
+        <!-- Campos para Masa/Volumen -->
+        <div id="mass-volume-fields" class="calculation-fields" style="display: none;">
+            <h3>Concentración Masa/Volumen</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="mass_g_mv">Masa (g): <span class="tooltip-icon" data-tooltip="Masa del soluto en gramos">ℹ️</span></label>
+                    <input type="number" id="mass_g_mv" name="mass_g" step="any" placeholder="Ej: 5.0 g"
+                           value="{{ form_data.get('mass_g', '') if form_data else '' }}"
+                           data-tooltip="Masa del compuesto a disolver en gramos">
+                </div>
+                <div class="form-group">
+                    <label for="volume_ml">Volumen (mL): <span class="tooltip-icon" data-tooltip="Volumen total de la solución">ℹ️</span></label>
+                    <input type="number" id="volume_ml" name="volume_ml" step="any" placeholder="Ej: 100 mL"
+                           value="{{ form_data.get('volume_ml', '') if form_data else '' }}"
+                           data-tooltip="Volumen final de la solución preparada">
+                </div>
+                <div class="form-group">
+                    <label for="concentration_mg_ml">Concentración (mg/mL): <span class="tooltip-icon" data-tooltip="Concentración masa/volumen resultante">ℹ️</span></label>
+                    <input type="number" id="concentration_mg_ml" name="concentration_mg_ml" step="any" placeholder="Ej: 50 mg/mL"
+                           value="{{ form_data.get('concentration_mg_ml', '') if form_data else '' }}"
+                           data-tooltip="Concentración final en miligramos por mililitro">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa masa + volumen para calcular concentración, o concentración + volumen para calcular masa.
+            </p>
+        </div>
+
+        <!-- Campos para PPM -->
+        <div id="ppm-fields" class="calculation-fields" style="display: none;">
+            <h3>Conversiones PPM (Partes por Millón)</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="ppm_value">PPM: <span class="tooltip-icon" data-tooltip="Partes por millón - concentraciones muy bajas">ℹ️</span></label>
+                    <input type="number" id="ppm_value" name="ppm_field" step="any" placeholder="Ej: 250 ppm"
+                           value="{{ form_data.get('ppm_field', '') if form_data else '' }}"
+                           data-tooltip="1 ppm = 1 mg de soluto por 1 kg de solución. Común en análisis de agua">
+                </div>
+                <div class="form-group">
+                    <label for="percentage_ppm">Porcentaje (%): <span class="tooltip-icon" data-tooltip="Equivalencia en porcentaje peso/peso">ℹ️</span></label>
+                    <input type="number" id="percentage_ppm" name="percentage_field" step="any" placeholder="Ej: 0.025 %"
+                           value="{{ form_data.get('percentage_field', '') if form_data else '' }}"
+                           data-tooltip="10,000 ppm = 1%. Útil para comparar con soluciones más concentradas">
+                </div>
+                <div class="form-group">
+                    <label for="concentration_mg_ml_ppm">Concentración (mg/mL): <span class="tooltip-icon" data-tooltip="Concentración masa/volumen equivalente">ℹ️</span></label>
+                    <input type="number" id="concentration_mg_ml_ppm" name="concentration_mg_ml_field" step="any" placeholder="Ej: 0.25 mg/mL"
+                           value="{{ form_data.get('concentration_mg_ml_field', '') if form_data else '' }}"
+                           data-tooltip="Para soluciones acuosas diluidas: 1 ppm ≈ 1 mg/L ≈ 0.001 mg/mL">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa uno de los campos para convertir a los otros.
+            </p>
+        </div>
+
+        <!-- Campos para Porcentaje -->
+        <div id="percentage-fields" class="calculation-fields" style="display: none;">
+            <h3>Concentración Porcentual (% p/v)</h3>
+            <div class="fields-grid">
+                <div class="form-group">
+                    <label for="percentage_value">Porcentaje (%): <span class="tooltip-icon" data-tooltip="Porcentaje peso/volumen">ℹ️</span></label>
+                    <input type="number" id="percentage_value" name="percentage_only" step="any" placeholder="Ej: 5.0 %"
+                           value="{{ form_data.get('percentage_only', '') if form_data else '' }}"
+                           data-tooltip="% p/v = (gramos de soluto / mL de solución) × 100. Común en farmacia">
+                </div>
+                <div class="form-group">
+                    <label for="ppm_percentage">PPM: <span class="tooltip-icon" data-tooltip="Equivalencia en partes por millón">ℹ️</span></label>
+                    <input type="number" id="ppm_percentage" name="ppm_only" step="any" placeholder="Ej: 50000 ppm"
+                           value="{{ form_data.get('ppm_only', '') if form_data else '' }}"
+                           data-tooltip="1% = 10,000 ppm. Conversión útil para comparar concentraciones">
+                </div>
+            </div>
+            <p class="help-text">
+                <strong>Instrucciones:</strong> Completa uno de los campos para convertir al otro.
+            </p>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Calcular</button>
+            <button type="button" class="btn btn-secondary" onclick="clearForm()">Limpiar</button>
+        </div>
+    </form>
+
+    {% if error %}
+    <div class="error-message">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    {% if resultado %}
+    <div class="result-section">
+        <h2>Resultado del Cálculo</h2>
+        <div class="result-content">
+            <div class="formula-used">
+                <strong>Fórmula utilizada:</strong> {{ resultado.formula_used }}
+            </div>
+
+            <div class="results-grid">
+                {% if resultado.molarity is not none %}
+                <div class="result-item">
+                    <span class="result-label">Molaridad:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.molarity) }} M</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.molality is not none %}
+                <div class="result-item">
+                    <span class="result-label">Molalidad:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.molality) }} m</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.moles is not none %}
+                <div class="result-item">
+                    <span class="result-label">Moles:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.moles) }} mol</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.volume_l is not none %}
+                <div class="result-item">
+                    <span class="result-label">Volumen:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.volume_l) }} L</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.mass_g is not none %}
+                <div class="result-item">
+                    <span class="result-label">Masa:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.mass_g) }} g</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.c1 is not none %}
+                <div class="result-item">
+                    <span class="result-label">C₁:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.c1) }}</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.v1 is not none %}
+                <div class="result-item">
+                    <span class="result-label">V₁:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.v1) }}</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.c2 is not none %}
+                <div class="result-item">
+                    <span class="result-label">C₂:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.c2) }}</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.v2 is not none %}
+                <div class="result-item">
+                    <span class="result-label">V₂:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.v2) }}</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.concentration_mg_ml is not none %}
+                <div class="result-item">
+                    <span class="result-label">Concentración:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.concentration_mg_ml) }} mg/mL</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.concentration_g_l is not none %}
+                <div class="result-item">
+                    <span class="result-label">Concentración:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.concentration_g_l) }} g/L</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.ppm is not none %}
+                <div class="result-item">
+                    <span class="result-label">PPM:</span>
+                    <span class="result-value">{{ "%.2f"|format(resultado.ppm) }} ppm</span>
+                </div>
+                {% endif %}
+
+                {% if resultado.percentage is not none %}
+                <div class="result-item">
+                    <span class="result-label">Porcentaje:</span>
+                    <span class="result-value">{{ "%.4f"|format(resultado.percentage) }} %</span>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if resultado.notes %}
+            <div class="result-notes">
+                <strong>Notas:</strong> {{ resultado.notes }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function showCalculationFields() {
+    // Ocultar todos los campos
+    const allFields = document.querySelectorAll('.calculation-fields');
+    allFields.forEach(field => field.style.display = 'none');
+    
+    // Mostrar el campo correspondiente
+    const selectedType = document.getElementById('calculation_type').value;
+    if (selectedType) {
+        // Mapeo correcto de valores del enum a IDs de div
+        const fieldMapping = {
+            'molaridad': 'molarity-fields',
+            'molalidad': 'molality-fields',
+            'dilucion': 'dilution-fields',
+            'masa_volumen': 'mass-volume-fields',
+            'ppm': 'ppm-fields',
+            'porcentaje': 'percentage-fields'
+        };
+        
+        const fieldId = fieldMapping[selectedType];
+        if (fieldId) {
+            const fieldElement = document.getElementById(fieldId);
+            if (fieldElement) {
+                fieldElement.style.display = 'block';
+            }
+        }
+    }
+}
+
+function clearForm() {
+    document.querySelector('.concentration-form').reset();
+    showCalculationFields();
+}
+
+// Mostrar campos correctos al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    showCalculationFields();
+});
+</script>
+{% endblock %}

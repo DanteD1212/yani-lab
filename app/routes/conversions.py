@@ -57,7 +57,7 @@ def conversions():
         error = str(e)
     except ConversionError as e:
         error = str(e)
-    except Exception as e:
+    except Exception:
         error = "Ha ocurrido un error inesperado. Por favor, inténtalo de nuevo."
     
     return render_template('conversiones.html', 

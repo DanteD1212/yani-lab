@@ -22,10 +22,10 @@
 }
 
 .neubauer-form {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     margin-bottom: 2rem;
 }
 
@@ -75,10 +75,10 @@
 }
 
 .result-card {
-    background: white;
+    background-color: var(--bg-card);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
     text-align: center;
 }
 
@@ -135,10 +135,10 @@
 }
 
 .info-panel {
-    background: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-md);
     margin-top: 2rem;
 }
 
