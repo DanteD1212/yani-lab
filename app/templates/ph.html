@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Calculadora de pH - Química Interactiva{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/ph.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Calculadora de pH para Soluciones Fuertes</h1>
+    <p>Determina rápidamente el pH y pOH de ácidos y bases fuertes considerando equivalentes y temperatura estándar.</p>
+</div>
+
+<div class="ph-container">
+    <form method="POST" class="ph-form">
+        <div class="form-group">
+            <label for="calculation_type" class="form-label">Tipo de solución:</label>
+            <select id="calculation_type" name="calculation_type" class="form-select" required>
+                <option value="">Selecciona una opción</option>
+                {% for calc_type in calculation_types %}
+                <option value="{{ calc_type.value }}" {% if form_data and form_data.get('calculation_type') == calc_type.value %}selected{% endif %}>
+                    {{ calc_type.label }}
+                </option>
+                {% endfor %}
+            </select>
+            <span class="form-help">Considera la disociación completa de ácidos y bases fuertes.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="concentration_m" class="form-label">Concentración (M):</label>
+            <input type="number" step="any" min="0" id="concentration_m" name="concentration_m" class="form-input"
+                   placeholder="Ejemplo: 0.01" value="{{ form_data.get('concentration_m', '') if form_data else '' }}" required>
+            <span class="form-help">Introduce la molaridad de la solución preparada.</span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="equivalents" class="form-label">Equivalentes liberados:</label>
+                <input type="number" step="any" min="0" id="equivalents" name="equivalents" class="form-input"
+                       placeholder="Ejemplo: 1" value="{{ form_data.get('equivalents', '1') if form_data else '1' }}" required>
+                <span class="form-help">Número de protones (ácido) o hidróxidos (base) liberados por mol.</span>
+            </div>
+            <div class="form-group">
+                <label for="kw" class="form-label">Constante iónica del agua (Kw):</label>
+                <input type="number" step="any" min="0" id="kw" name="kw" class="form-input"
+                       placeholder="1e-14" value="{{ form_data.get('kw', '') if form_data else '' }}">
+                <span class="form-help">Opcional. Usa otro valor si trabajas a temperaturas distintas a 25°C.</span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Calcular pH</button>
+    </form>
+
+    {% if resultado %}
+    <div class="result-section success">
+        <h2>Resultados del cálculo</h2>
+        <div class="result-grid">
+            <div class="result-card">
+                <span class="result-label">pH</span>
+                <span class="result-value">{{ "%.4f"|format(resultado.ph) }}</span>
+            </div>
+            <div class="result-card">
+                <span class="result-label">pOH</span>
+                <span class="result-value">{{ "%.4f"|format(resultado.poh) }}</span>
+            </div>
+            <div class="result-card">
+                <span class="result-label">[H₃O⁺]</span>
+                <span class="result-value">{{ "%.3e"|format(resultado.hydronium) }} M</span>
+            </div>
+            <div class="result-card">
+                <span class="result-label">[OH⁻]</span>
+                <span class="result-value">{{ "%.3e"|format(resultado.hydroxide) }} M</span>
+            </div>
+        </div>
+        <p class="formula-text">{{ resultado.formula_used }}</p>
+        {% if resultado.notes %}
+        <p class="notes-text">{{ resultado.notes }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="result-section error">
+        <h2>No se pudo completar el cálculo</h2>
+        <p class="error-text">{{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<section class="info-panel">
+    <h3>¿Cómo interpretar los resultados?</h3>
+    <div class="info-grid">
+        <div class="info-card">
+            <h4>Equivalentes</h4>
+            <p>Utiliza 1 para ácidos monoproticos o bases monovalentes. Para H₂SO₄ o Ca(OH)₂ emplea 2, y así sucesivamente.</p>
+        </div>
+        <div class="info-card">
+            <h4>Kw ajustable</h4>
+            <p>Ingresa un valor distinto para Kw si tus ensayos se realizan a temperaturas donde el producto iónico del agua cambia.</p>
+        </div>
+        <div class="info-card">
+            <h4>Zonas de pH</h4>
+            <p>pH &lt; 7 indica solución ácida, pH = 7 neutra y pH &gt; 7 básica. Los resultados se limitan al rango de 0 a 14.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
