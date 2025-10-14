@@ -19,7 +19,7 @@
             <select id="calculation_type" name="calculation_type" class="form-select" required>
                 <option value="">Selecciona una opción</option>
                 {% for calc_type in calculation_types %}
-                <option value="{{ calc_type.value }}" {% if form_data and form_data.get('calculation_type') == calc_type.value %}selected{% endif %}>
+                <option value="{{ calc_type.value }}" {% if form_data.get('calculation_type') == calc_type.value %}selected{% endif %}>
                     {{ calc_type.label }}
                 </option>
                 {% endfor %}
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label for="concentration_m" class="form-label">Concentración (M):</label>
             <input type="number" step="any" min="0" id="concentration_m" name="concentration_m" class="form-input"
-                   placeholder="Ejemplo: 0.01" value="{{ form_data.get('concentration_m', '') if form_data else '' }}" required>
+                   placeholder="Ejemplo: 0.01" value="{{ form_data.get('concentration_m', '') }}" required>
             <span class="form-help">Introduce la molaridad de la solución preparada.</span>
         </div>
 
@@ -38,14 +38,14 @@
             <div class="form-group">
                 <label for="equivalents" class="form-label">Equivalentes liberados:</label>
                 <input type="number" step="any" min="0" id="equivalents" name="equivalents" class="form-input"
-                       placeholder="Ejemplo: 1" value="{{ form_data.get('equivalents', '1') if form_data else '1' }}" required>
+                       placeholder="Ejemplo: 1" value="{{ form_data.get('equivalents', '1') }}" required>
                 <span class="form-help">Número de protones (ácido) o hidróxidos (base) liberados por mol.</span>
             </div>
             <div class="form-group">
                 <label for="kw" class="form-label">Constante iónica del agua (Kw):</label>
                 <input type="number" step="any" min="0" id="kw" name="kw" class="form-input"
-                       placeholder="1e-14" value="{{ form_data.get('kw', '') if form_data else '' }}">
-                <span class="form-help">Opcional. Usa otro valor si trabajas a temperaturas distintas a 25°C.</span>
+                       placeholder="{{ default_kw }}" value="{{ form_data.get('kw', '') }}">
+                <span class="form-help">Opcional. Usa otro valor si trabajas a temperaturas distintas a 25°C (por defecto {{ default_kw }}).</span>
             </div>
         </div>
 
