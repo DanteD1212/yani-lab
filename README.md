@@ -13,6 +13,7 @@ Este proyecto tiene dos motivaciones principales:
 
 - **Conversiones de Unidades**: Conversión rápida entre diferentes unidades de masa, temperatura y volumen
 - **Cálculo de Neubauer**: Cálculo preciso de concentración celular usando cámara de Neubauer
+- **Calculadora de pH**: Determinación rápida de pH/pOH para ácidos y bases fuertes
 - **Interfaz Intuitiva**: Diseño responsive y fácil de usar
 - **Validación de Datos**: Validación en tiempo real para evitar errores
 - **Arquitectura Escalable**: Código organizado y modular para fácil mantenimiento
@@ -91,6 +92,13 @@ app/
 - Soporte para 1-5 cuadrantes
 - Factor de dilución configurable
 - Validación de entrada en tiempo real
+
+### Calculadora de pH
+
+- Estima pH y pOH de ácidos y bases fuertes
+- Permite ajustar equivalentes liberados por mol
+- Admite modificar la constante iónica del agua para otras temperaturas
+- Ofrece notas cuando la solución es demasiado diluida
 
 ## ☁️ Despliegue en Render
 
